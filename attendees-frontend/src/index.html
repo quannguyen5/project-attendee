@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách học viên</title>
+    <link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Danh sách học viên</h1>
+        
+        <div id="errorMessage" class="error" style="display: none;"></div>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên...">
+            <select id="schoolFilter" class="filter-select">
+                <option value="">Tất cả trường</option>
+            </select>
+        </div>
+        
+        <div id="loading" class="loading">Đang tải dữ liệu...</div>
+        
+        <table id="attendeeTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th data-sort="id">ID</th>
+                    <th data-sort="name">Họ và tên</th>
+                    <th data-sort="dob">Ngày sinh</th>
+                    <th data-sort="school">Trường</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        
+        <div class="schools-summary" id="schoolsSummary">
+            <h3>Thống kê theo trường</h3>
+            <div id="schoolStats"></div>
+        </div>
+    </div>
+
+    <script src="../src/js/main.js"></script>
+</body>
+</html>

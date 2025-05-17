@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: attendee-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: attendeevdt
+      MYSQL_USER: attendeeuser
+      MYSQL_PASSWORD: attendeepass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - attendee-network
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./attendeevdt
+      dockerfile: Dockerfile
+    container_name: attendee-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/attendeevdt?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: attendeeuser
+      SPRING_DATASOURCE_PASSWORD: attendeepass
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - attendee-network
+
+  # Nginx Frontend
+  frontend:
+    build:
+      context: ./attendees-frontend
+      dockerfile: Dockerfile
+    container_name: attendee-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - attendee-network
+
+networks:
+  attendee-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
