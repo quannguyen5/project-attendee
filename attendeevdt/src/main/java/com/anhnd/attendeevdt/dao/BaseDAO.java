@@ -21,10 +21,10 @@ public class BaseDAO {
 
     protected Connection getConnection() throws SQLException {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
         } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL JDBC Driver not found", e);
+            throw new SQLException("PostgreSQL JDBC Driver not found", e);
         }
     }
 

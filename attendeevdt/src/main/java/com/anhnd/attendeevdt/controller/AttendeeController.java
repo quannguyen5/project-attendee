@@ -17,7 +17,7 @@ public class AttendeeController {
     private AttendeeDAO attendeeDAO;
 
 
-    @GetMapping("/all-attendees")
+    @GetMapping(value = "/all-attendees", produces = "application/json;charset=UTF-8")
     public List<Attendee> getAllAttendee() throws SQLException {
         return attendeeDAO.getAllAttendees();
     }

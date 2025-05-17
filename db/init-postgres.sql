@@ -1,10 +1,5 @@
-CREATE DATABASE IF NOT EXISTS attendeevdt;
-USE attendeevdt;
-
-DROP TABLE IF EXISTS attendee;
-
-CREATE TABLE attendee (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS attendee (
+    id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     dob VARCHAR(20) NOT NULL,
     school VARCHAR(255)

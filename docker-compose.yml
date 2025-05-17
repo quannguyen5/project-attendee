@@ -1,22 +1,21 @@
 version: '3.8'
 
 services:
-  # MySQL Database
+  # PostgreSQL Database
   db:
-    image: mysql:8.0
-    container_name: attendee-mysql
+    image: postgres:14
+    container_name: attendee-postgres
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: attendeevdt
-      MYSQL_USER: attendeeuser
-      MYSQL_PASSWORD: attendeepass
+      POSTGRES_DB: attendeevdt
+      POSTGRES_USER: attendeeuser
+      POSTGRES_PASSWORD: attendeepass
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql-data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data:/var/lib/postgresql/data
+      - ./db/init-postgres.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      test: ["CMD", "pg_isready", "-U", "attendeeuser", "-d", "attendeevdt"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,7 +29,7 @@ services:
       dockerfile: Dockerfile
     container_name: attendee-backend
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/attendeevdt?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/attendeevdt
       SPRING_DATASOURCE_USERNAME: attendeeuser
       SPRING_DATASOURCE_PASSWORD: attendeepass
     ports:
@@ -59,4 +58,4 @@ networks:
     driver: bridge
 
 volumes:
-  mysql-data:
+  postgres-data:

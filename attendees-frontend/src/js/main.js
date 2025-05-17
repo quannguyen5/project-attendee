@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Khai báo biến API URL - sử dụng đường dẫn tương đối khi đi qua Nginx proxy
-    const API_URL = '/api/all-attendees';
+    const API_URL = 'http://localhost:8080/api/all-attendees';
+
     
     // Lấy các phần tử DOM
     const tableBody = document.getElementById('tableBody');

@@ -25,9 +25,9 @@ public class AttendeeDAO extends BaseDAO {
                 while (rs.next()) {
                     Attendee attendee = new Attendee();
                     attendee.setId(rs.getInt("id"));
-                    attendee.setName(rs.getString("ho_va_ten"));
-                    attendee.setDob(rs.getString("ngay_thang_nam_sinh"));
-                    attendee.setSchool(rs.getString("phan_loai_truong"));
+                    attendee.setName(rs.getString("name"));
+                    attendee.setDob(rs.getString("dob"));
+                    attendee.setSchool(rs.getString("school"));
                     attendees.add(attendee);
                 }
             }
